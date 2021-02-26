@@ -86,17 +86,39 @@ public class Token {
   }
 
   public enum Kind {
-    PLUS,
-    MINUS,
-    STAR,
-    SLASH,
-    CARET,
-    LPARENTHESIS,
-    RPARENTHESIS,
-    LANGLE,
-    RANGLE,
-    EQUALS,
-    NUMBER,
-    CELL_LOCATION,
+    PLUS(3, Associativity.LEFT, Arity.BINARY),
+    MINUS(3, Associativity.LEFT, Arity.BINARY),
+    STAR(4, Associativity.LEFT, Arity.BINARY),
+    SLASH(4, Associativity.LEFT, Arity.BINARY),
+    CARET(6, Associativity.RIGHT, Arity.BINARY),
+    LPARENTHESIS(0, Associativity.NONE, Arity.ZERO),
+    RPARENTHESIS(0, Associativity.NONE, Arity.ZERO),
+    LANGLE(2, Associativity.NONE, Arity.BINARY),
+    RANGLE(2, Associativity.NONE, Arity.BINARY),
+    EQUALS(1, Associativity.NONE, Arity.BINARY),
+    NUMBER(7, Associativity.NONE, Arity.ZERO),
+    CELL_LOCATION(7, Associativity.NONE, Arity.ZERO);
+
+    public int precedence;
+    public Associativity associativity;
+    public Arity arity;
+
+    Kind(int precedence, Associativity associativity, Arity arity) {
+      this.precedence = precedence;
+      this.associativity = associativity;
+      this.arity = arity;
+    }
+  }
+
+  public enum Associativity {
+    LEFT,
+    RIGHT,
+    NONE,
+  }
+
+  public enum Arity {
+    UNARY,
+    BINARY,
+    ZERO,
   }
 }

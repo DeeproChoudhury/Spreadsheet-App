@@ -2,12 +2,23 @@ package spreadsheet;
 
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
+import common.api.EvaluationContext;
+import common.api.Expression;
 import java.util.Set;
 
 /**
  * A single cell in a spreadsheet, tracking the expression, value, and other parts of cell state.
  */
 public class Cell {
+  private final BasicSpreadsheet spreadsheet;
+  private final CellLocation location;
+  private double value;
+  public enum State {
+    EMPTY,
+    NONEMPTY;
+  }
+  private State cellState;
+  private Expression expression;
   /**
    * Constructs a new cell.
    *
@@ -16,7 +27,12 @@ public class Cell {
    * @param spreadsheet The parent spreadsheet,
    * @param location The location of this cell in the spreadsheet.
    */
-  Cell(BasicSpreadsheet spreadsheet, CellLocation location) {}
+  Cell(BasicSpreadsheet spreadsheet, CellLocation location) {
+    this.spreadsheet = spreadsheet;
+    this.location = location;
+    cellState = State.EMPTY;
+    value = 0.0;
+  }
 
   /**
    * Gets the cell's last calculated value.
@@ -26,7 +42,7 @@ public class Cell {
    * @return the cell's value.
    */
   public double getValue() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return value;
   }
 
   /**
@@ -38,7 +54,11 @@ public class Cell {
    *     expression is stored, we return the empty string.
    */
   public String getExpression() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    if (cellState == State.EMPTY) {
+      return "";
+    } else {
+      return expression.toString();
+    }
   }
 
   /**
@@ -50,13 +70,22 @@ public class Cell {
    * @throws InvalidSyntaxException if the string cannot be parsed.
    */
   public void setExpression(String input) throws InvalidSyntaxException {
-    throw new UnsupportedOperationException("Not implemented yet");
+    if (input.isEmpty()) {
+      cellState = State.EMPTY;
+    } else {
+      cellState = State.NONEMPTY;
+      expression = Parser.parse(input);
+    }
   }
 
   /** @return a string representing the value, if any, of this cell. */
   @Override
   public String toString() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    if (cellState == State.EMPTY) {
+      return "";
+    } else {
+      return Double.toString(value);
+    }
   }
 
   /**
@@ -98,6 +127,10 @@ public class Cell {
    * <p>DO NOT CHANGE THE SIGNATURE. The test suite depends on this.
    */
   public void recalculate() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    if (cellState != State.EMPTY) {
+      value = expression.evaluate(spreadsheet);
+    } else {
+      value = 0.0;
+    }
   }
 }
