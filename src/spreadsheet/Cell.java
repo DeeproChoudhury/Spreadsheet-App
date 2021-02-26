@@ -4,6 +4,7 @@ import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 import common.api.EvaluationContext;
 import common.api.Expression;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,6 +20,8 @@ public class Cell {
   }
   private State cellState;
   private Expression expression;
+  private final Set<CellLocation> dependents = new HashSet<>();
+
   /**
    * Constructs a new cell.
    *
@@ -43,6 +46,10 @@ public class Cell {
    */
   public double getValue() {
     return value;
+  }
+
+  public Set<CellLocation> getDependents() {
+    return Set.copyOf(dependents);
   }
 
   /**
@@ -70,11 +77,19 @@ public class Cell {
    * @throws InvalidSyntaxException if the string cannot be parsed.
    */
   public void setExpression(String input) throws InvalidSyntaxException {
+    Set<CellLocation> locationSet = new HashSet<>();
+    if (expression != null) {
+      findCellReferences(locationSet);
+    }
+    locationSet.forEach(p -> spreadsheet.removeDependency(this.location, p));
     if (input.isEmpty()) {
       cellState = State.EMPTY;
     } else {
       cellState = State.NONEMPTY;
       expression = Parser.parse(input);
+      Set<CellLocation> locationSet1 = new HashSet<>();
+      expression.findCellReferences(locationSet1);
+      locationSet1.forEach(p -> spreadsheet.addDependency(this.location, p));
     }
   }
 
@@ -96,7 +111,7 @@ public class Cell {
    * @param location the location to add.
    */
   public void addDependent(CellLocation location) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    dependents.add(location);
   }
 
   /**
@@ -107,7 +122,7 @@ public class Cell {
    * @param location the location to add.
    */
   public void removeDependent(CellLocation location) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    dependents.remove(location);
   }
 
   /**
@@ -118,7 +133,7 @@ public class Cell {
    * @param target The set that will receive the dependencies for this
    */
   public void findCellReferences(Set<CellLocation> target) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    expression.findCellReferences(target);
   }
 
   /**
@@ -132,5 +147,6 @@ public class Cell {
     } else {
       value = 0.0;
     }
+    dependents.forEach(spreadsheet::recalculate);
   }
 }

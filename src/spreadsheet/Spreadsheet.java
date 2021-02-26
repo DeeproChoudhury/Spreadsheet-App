@@ -21,6 +21,10 @@ public class Spreadsheet implements BasicSpreadsheet {
    */
   Spreadsheet() {}
 
+  public Cell getCell(CellLocation cellLocation) {
+    return cellLocationMap.get(cellLocation);
+  }
+
   /**
    * Parse and evaluate an expression, using the spreadsheet as a context.
    *
@@ -71,21 +75,26 @@ public class Spreadsheet implements BasicSpreadsheet {
 
   @Override
   public void addDependency(CellLocation dependent, CellLocation dependency) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    cellLocationMap
+        .computeIfAbsent(dependency, p -> new Cell(this, p)).addDependent(dependent);
+
   }
 
   @Override
   public void removeDependency(CellLocation dependent, CellLocation dependency) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    cellLocationMap
+        .computeIfAbsent(dependency, p -> new Cell(this, p)).removeDependent(dependent);
   }
 
   @Override
   public void recalculate(CellLocation location) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    cellLocationMap
+        .computeIfAbsent(location, p -> new Cell(this, p)).recalculate();
   }
 
   @Override
   public void findCellReferences(CellLocation subject, Set<CellLocation> target) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    cellLocationMap
+        .computeIfAbsent(subject, p -> new Cell(this, p)).findCellReferences(target);
   }
 }
