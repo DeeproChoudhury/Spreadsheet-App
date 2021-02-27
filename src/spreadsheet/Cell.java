@@ -4,7 +4,6 @@ import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 import common.api.EvaluationContext;
 import common.api.Expression;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,9 +20,8 @@ public class Cell {
 
   public enum State {
     EMPTY,
-    NONEMPTY;
+    NONEMPTY
   }
-
 
   /**
    * Constructs a new cell.
@@ -49,10 +47,6 @@ public class Cell {
    */
   public double getValue() {
     return value;
-  }
-
-  public Set<CellLocation> getDependents() {
-    return Set.copyOf(dependents);
   }
 
   /**

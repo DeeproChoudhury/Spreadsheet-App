@@ -196,6 +196,56 @@ public class TestCell {
     assertTrue(dependencies(c).isEmpty());
   }
 
+  //Added by me to test get and set, no recalculation
+  @Test
+  public void testImmediateGetAndSet() throws InvalidSyntaxException {
+    Spreadsheet s = new Spreadsheet();
+    Cell c = new Cell(s, A1);
+
+    assertTrue(dependencies(c).isEmpty());
+
+    c.setExpression("c3 * c4");
+    assertEquals(c.getExpression(), "(c3*c4)");
+
+    c.setExpression("(c6 ^ c7)");
+    assertEquals(c.getExpression(), "(c6^c7)");
+  }
+
+  //Added by me to test everything at once after each other
+  @Test
+  public void testEverything() throws InvalidSyntaxException {
+    FakeSpreadsheet s = new FakeSpreadsheet();
+    Cell c = new Cell(s, A1);
+
+    c.setExpression("6 ^ 2");
+    c.recalculate();
+    assertThat(c.getExpression(), matchesTokens("( 6 ^ 2 )"));
+    assertThat(c.toString(), matchesTokens("36"));
+
+    // No dependencies
+    c.setExpression("10.0");
+    c.recalculate();
+
+    // Then add dependents
+    c.addDependent(A2);
+    c.addDependent(B2);
+    c.addDependent(A1);
+    c.addDependent(B1);
+    c.setExpression("6000");
+    c.recalculate();
+    assertEquals(1, s.recalculationCount(A1));
+    assertEquals(1, s.recalculationCount(A2));
+    assertEquals(1, s.recalculationCount(B1));
+    assertEquals(1, s.recalculationCount(B2));
+
+    Spreadsheet s1 = new Spreadsheet();
+    Cell c1 = new Cell(s1, A1);
+
+    c1.setExpression("a1 + b1 + c1 + d1");
+    assertThat(dependencies(c1), containsInAnyOrder("a1", "b1", "c1", "d1"));
+
+  }
+
 
   private Set<String> dependencies(Cell c) {
     Set<CellLocation> cells = new HashSet<>();

@@ -48,7 +48,7 @@ public class TestCycleDetector {
   @Test
   public void testChainedDirect() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
+    final CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});
@@ -80,7 +80,7 @@ public class TestCycleDetector {
   @Test
   public void testLargeIndirect() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
+    final CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});
@@ -97,7 +97,7 @@ public class TestCycleDetector {
   @Test
   public void testDiamond() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
+    final CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2, B1});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});
@@ -143,7 +143,7 @@ public class TestCycleDetector {
   @Test
   public void testHub() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
+    final CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {B2});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});

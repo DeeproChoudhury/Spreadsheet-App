@@ -79,7 +79,8 @@ public class Parser {
     Expression secondExpression = expressionStack.pop();
     Expression firstExpression = expressionStack.pop();
     Kind operator = operatorStack.pop();
-    expressionStack.push(new BinaryOperatorApplications(firstExpression, secondExpression, operator));
+    expressionStack.push(new BinaryOperatorApplications(firstExpression,
+        secondExpression, operator));
   }
 }
 

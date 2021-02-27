@@ -44,12 +44,16 @@ public class Spreadsheet implements BasicSpreadsheet {
     if (cellLocationMap.get(location) != null) {
       newCell = cellLocationMap.get(location);
     }
-
-    newCell.setExpression(input);
-    CycleDetector cycleDetector = new CycleDetector(this);
-    if (!cycleDetector.hasCycleFrom(location)) {
-      newCell.recalculate();
+    if (input.contains("/0") || input.contains("/ 0")) {
+      throw new InvalidSyntaxException("Division by 0");
+    } else {
+      newCell.setExpression(input);
+      CycleDetector cycleDetector = new CycleDetector(this);
+      if (!cycleDetector.hasCycleFrom(location)) {
+        newCell.recalculate();
+      }
     }
+
     cellLocationMap.put(location, newCell);
   }
 
