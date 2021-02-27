@@ -196,6 +196,7 @@ public class TestCell {
     assertTrue(dependencies(c).isEmpty());
   }
 
+
   private Set<String> dependencies(Cell c) {
     Set<CellLocation> cells = new HashSet<>();
     c.findCellReferences(cells);

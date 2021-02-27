@@ -124,6 +124,21 @@ public class TestCycleDetector {
     assertFalse(c.hasCycleFrom(B2));
   }
 
+  //Added by me to test square
+  @Test
+  public void testSquare() {
+    FakeSpreadsheet t = new FakeSpreadsheet();
+    CycleDetector c = new CycleDetector(t);
+
+    t.dependencyEdges.put(A1, new CellLocation[] {A2, B2});
+    t.dependencyEdges.put(A2, new CellLocation[] {B2});
+
+    assertFalse(c.hasCycleFrom(A1));
+    assertFalse(c.hasCycleFrom(A2));
+    assertFalse(c.hasCycleFrom(B1));
+    assertFalse(c.hasCycleFrom(B2));
+  }
+
   /** Tests that the cycle detector ignores a hub dependency pattern. */
   @Test
   public void testHub() {

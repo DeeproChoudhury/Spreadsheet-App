@@ -10,9 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Spreadsheet implements BasicSpreadsheet {
-  //
-  // start replacing
-  //
   private final Map<CellLocation, Cell> cellLocationMap = new HashMap<>();
   /**
    * Construct an empty spreadsheet.
@@ -46,8 +43,12 @@ public class Spreadsheet implements BasicSpreadsheet {
     if (cellLocationMap.get(location) != null) {
       newCell = cellLocationMap.get(location);
     }
+
     newCell.setExpression(input);
-    newCell.recalculate();
+    CycleDetector cycleDetector = new CycleDetector(this);
+    if (!cycleDetector.hasCycleFrom(location)) {
+      newCell.recalculate();
+    }
     cellLocationMap.put(location, newCell);
   }
 
@@ -59,9 +60,6 @@ public class Spreadsheet implements BasicSpreadsheet {
       return 0.0;
     }
   }
-  //
-  // end replacing
-  //
 
   @Override
   public String getCellExpression(CellLocation location) {

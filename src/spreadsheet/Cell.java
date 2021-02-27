@@ -4,6 +4,7 @@ import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 import common.api.EvaluationContext;
 import common.api.Expression;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -133,7 +134,11 @@ public class Cell {
    * @param target The set that will receive the dependencies for this
    */
   public void findCellReferences(Set<CellLocation> target) {
-    expression.findCellReferences(target);
+    if (cellState == State.EMPTY) {
+      target.clear();
+    } else {
+      expression.findCellReferences(target);
+    }
   }
 
   /**

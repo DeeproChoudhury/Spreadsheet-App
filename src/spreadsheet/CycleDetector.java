@@ -55,8 +55,4 @@ public class CycleDetector {
 
     return false;
   }
-
-
-
-
 }
