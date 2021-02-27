@@ -73,6 +73,16 @@ public class TestParser {
     check("1 ^ 2 ^ 4", "(1 ^ (2 ^ 4))");
   }
 
+  //Added by me to test both associativity and precedence in one expression
+  @Test
+  public void testAssociativityAndPrecedence() throws Exception {
+    check("1 * 2 + 3 + 4", "(((1 * 2) + 3) + 4)");
+    check("1 + 2 * 4 + 1", "(1 + ((2 * 4) + 1))");
+    check("1 / 2 / 5 - 3 - 4", "((((1 / 2) / 5) - 3) - 4)");
+    check("1 ^ 2 + 5 ^ 6 + 3 + 4", "((1 ^ 2) + (((5 ^ 6) + 3) + 4))");
+  }
+
+
   private void check(String input, String expected) throws Exception {
     assertThat(Parser.parse(input).toString(), matchesTokens(expected));
   }

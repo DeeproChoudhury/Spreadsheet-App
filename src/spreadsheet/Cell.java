@@ -2,7 +2,6 @@ package spreadsheet;
 
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
-import common.api.EvaluationContext;
 import common.api.Expression;
 import java.util.HashSet;
 import java.util.Set;
