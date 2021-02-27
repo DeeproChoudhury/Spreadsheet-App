@@ -3,12 +3,11 @@ package spreadsheet;
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /** Detects dependency cycles. */
 public class CycleDetector {
-  private BasicSpreadsheet spreadsheet;
+  private final BasicSpreadsheet spreadsheet;
   private final Set<CellLocation> visited = new HashSet<>();
 
   /**
@@ -24,10 +23,6 @@ public class CycleDetector {
 
   private void visited(CellLocation start) {
     visited.add(start);
-  }
-
-  private void removeVisited(CellLocation c) {
-    visited.remove(c);
   }
 
   /**
