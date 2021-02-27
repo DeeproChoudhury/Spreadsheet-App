@@ -15,13 +15,15 @@ public class Cell {
   private final BasicSpreadsheet spreadsheet;
   private final CellLocation location;
   private double value;
+  private State cellState;
+  private Expression expression;
+  private final Set<CellLocation> dependents = new HashSet<>();
+
   public enum State {
     EMPTY,
     NONEMPTY;
   }
-  private State cellState;
-  private Expression expression;
-  private final Set<CellLocation> dependents = new HashSet<>();
+
 
   /**
    * Constructs a new cell.
@@ -57,7 +59,7 @@ public class Cell {
    * Gets the cell's last stored expression, in string form.
    *
    * <p>DO NOT CHANGE THE SIGNATURE. The test suite depends on this.
-   *
+
    * @return a string that parses to an equivalent expression to that last stored in the cell; if no
    *     expression is stored, we return the empty string.
    */
@@ -94,7 +96,10 @@ public class Cell {
     }
   }
 
-  /** @return a string representing the value, if any, of this cell. */
+  /**
+
+   * @return a string representing the value, if any, of this cell.
+   * */
   @Override
   public String toString() {
     if (cellState == State.EMPTY) {

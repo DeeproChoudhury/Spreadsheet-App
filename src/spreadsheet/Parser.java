@@ -22,10 +22,10 @@ public class Parser {
   static Expression parse(String input) throws InvalidSyntaxException {
     Parser parser = new Parser();
     Lexer lexer = new Lexer(input);
-    while(true) {
+    while (true) {
       try {
         Token token = lexer.nextToken();
-        if(token == null) {
+        if (token == null) {
           break;
         } else {
           parser.process(token);
@@ -40,7 +40,7 @@ public class Parser {
     return parser.expressionStack.pop();
   }
 
-  public void process(Token token){
+  public void process(Token token) {
     if (token.kind.arity == Arity.BINARY) {
       if (!operatorStack.isEmpty()) {
         Kind topOfStack = operatorStack.peek();
@@ -62,7 +62,7 @@ public class Parser {
           expressionStack.push(newCell);
         }
         case RPARENTHESIS -> {
-          while(!operatorStack.lastElement().equals(Kind.LPARENTHESIS)) {
+          while (!operatorStack.lastElement().equals(Kind.LPARENTHESIS)) {
             binaryOperatorConstructor();
           }
           operatorStack.pop();
@@ -79,12 +79,7 @@ public class Parser {
     Expression secondExpression = expressionStack.pop();
     Expression firstExpression = expressionStack.pop();
     Kind operator = operatorStack.pop();
-    expressionStack.push
-        (new BinaryOperatorApplications(firstExpression, secondExpression, operator));
+    expressionStack.push(new BinaryOperatorApplications(firstExpression, secondExpression, operator));
   }
-
-//  public void bracketConstructor() {
-//    switch ()
-//  }
 }
 

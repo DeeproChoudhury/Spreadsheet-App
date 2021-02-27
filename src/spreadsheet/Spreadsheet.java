@@ -11,6 +11,7 @@ import java.util.Set;
 
 public class Spreadsheet implements BasicSpreadsheet {
   private final Map<CellLocation, Cell> cellLocationMap = new HashMap<>();
+
   /**
    * Construct an empty spreadsheet.
    *
@@ -63,7 +64,8 @@ public class Spreadsheet implements BasicSpreadsheet {
 
   @Override
   public String getCellExpression(CellLocation location) {
-    return (cellLocationMap.get(location) != null) ? cellLocationMap.get(location).getExpression() : "";
+    return (cellLocationMap.get(location) != null)
+        ? cellLocationMap.get(location).getExpression() : "";
   }
 
   @Override

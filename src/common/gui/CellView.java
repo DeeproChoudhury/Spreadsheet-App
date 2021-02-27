@@ -23,12 +23,16 @@ class CellView {
     this.display = display;
   }
 
-  /** @return the current expression of this cell. */
+  /**
+   * @return the current expression of this cell.
+   * */
   String getExpression() {
     return this.expression;
   }
 
-  /** @return a string that should be displayed in the cell whenever it is not being edited. */
+  /**
+  * @return a string that should be displayed in the cell whenever it is not being edited.
+  * */
   String getDisplay() {
     return this.display;
   }

@@ -10,6 +10,7 @@ import java.util.Set;
 public class CycleDetector {
   private BasicSpreadsheet spreadsheet;
   private final Set<CellLocation> visited = new HashSet<>();
+
   /**
    * Constructs a new cycle detector.
    *
@@ -28,6 +29,7 @@ public class CycleDetector {
   private void removeVisited(CellLocation c) {
     visited.remove(c);
   }
+
   /**
    * Checks for a cycle in the spreadsheet, starting at a particular cell.
    *
@@ -40,14 +42,14 @@ public class CycleDetector {
     Set<CellLocation> dependencies = new HashSet<>();
     spreadsheet.findCellReferences(start, dependencies);
 
-    if(visited.contains(start)) {
+    if (visited.contains(start)) {
       return true;
     }
 
     visited(start);
 
     for (CellLocation c : dependencies) {
-      if(hasCycleFrom(c)) {
+      if (hasCycleFrom(c)) {
         return true;
       }
     }

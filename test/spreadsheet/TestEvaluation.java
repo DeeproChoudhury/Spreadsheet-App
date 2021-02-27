@@ -45,7 +45,7 @@ public class TestEvaluation {
         .with("a1", 10).with("b1", 2).with("c1", 2));
   }
 
-  //Added by me to test less than and greater than operators, which output 1 for true and 0 for false
+  //Added by me to test less than and greater than operators which output 1 - true and 0 - false
   @Test
   public void testAngleBrackets() {
     assertThat("1 + 2 < 5", evaluatesTo(1));
